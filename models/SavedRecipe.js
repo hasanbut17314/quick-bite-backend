@@ -10,7 +10,6 @@ const SavedRecipeSchema = new mongoose.Schema({
   image: String,
   calories: Number,
   time: Number,
-  recipeId: { type: String, required: true },
   link: String,
   createdAt: { type: Date, default: Date.now },
 });
