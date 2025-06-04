@@ -296,7 +296,8 @@ import cors from "cors";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from './routes/authRoutes.js';
-import dashboardRoute from "./routes/dashboard.js"; 
+import dashboardRoute from "./routes/dashboard.js";
+import shoppingListRoutes from "./routes/ShoppingList.js"; // Assuming you have a listRoutes.js file 
 
 dotenv.config();
 
@@ -323,7 +324,8 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/dashboard", dashboardRoute);  // <--- use dashboardRoute here
+app.use("/api/dashboard", dashboardRoute);// <--- use dashboardRoute here
+app.use("/api/list", shoppingListRoutes); // <--- use shoppingListRoutes here
 
 // Default Route
 app.get("/", (req, res) => {
