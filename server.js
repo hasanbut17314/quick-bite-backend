@@ -298,6 +298,8 @@ import userRoutes from "./routes/userRoutes.js";
 import authRoutes from './routes/authRoutes.js';
 import dashboardRoute from "./routes/dashboard.js";
 import shoppingListRoutes from "./routes/ShoppingList.js"; // Assuming you have a listRoutes.js file 
+import favoriteRoutes from "./routes/favorite.js";
+import savedRecipeRoutes from "./routes/savedRecipe.js";
 
 dotenv.config();
 
@@ -326,6 +328,8 @@ app.use('/api/auth', authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/dashboard", dashboardRoute);// <--- use dashboardRoute here
 app.use("/api/list", shoppingListRoutes); // <--- use shoppingListRoutes here
+app.use("/api/favorites", favoriteRoutes);
+app.use("/api/savedrecipes", savedRecipeRoutes);
 
 // Default Route
 app.get("/", (req, res) => {
