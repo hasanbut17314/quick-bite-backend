@@ -1,15 +1,26 @@
 import mongoose from "mongoose";
 
+const IngredientSchema = new mongoose.Schema({
+  name: { type: String, required: true, trim: true },
+  quantity: { type: String, trim: true },
+});
+
 const ShoppingListSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // assuming you have a User model
+    ref: "User",
     required: true,
+  },
+  recipeId: {
+    type: String,
   },
   comment: {
     type: String,
-    required: true,
     trim: true,
+  },
+  ingredients: {
+    type: [IngredientSchema],
+    default: [],
   },
   createdAt: {
     type: Date,
