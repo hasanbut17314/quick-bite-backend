@@ -301,6 +301,7 @@ import shoppingListRoutes from "./routes/ShoppingList.js"; // Assuming you have 
 import favoriteRoutes from "./routes/favorite.js";
 import savedRecipeRoutes from "./routes/savedRecipe.js";
 import activityRoutes from "./routes/Activity.js"; // Assuming you have an activityRoutes.js file
+import preferencesRoutes from "./routes/preferences.js"; // Assuming you have a preferencesRoutes.js file
 
 dotenv.config();
 
@@ -332,6 +333,8 @@ app.use("/api/list", shoppingListRoutes); // <--- use shoppingListRoutes here
 app.use("/api/favorites", favoriteRoutes);
 app.use("/api/savedrecipes", savedRecipeRoutes);
 app.use("/api/activity", activityRoutes);
+app.use("/api/preferences", preferencesRoutes); // <--- use preferencesRoutes here
+
 
 // Default Route
 app.get("/", (req, res) => {

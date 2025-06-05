@@ -139,9 +139,11 @@ const userSchema = new mongoose.Schema({
   password: String,
   image: String,
   preferences: {
-    diet: String,
-    intolerances: [String],
-    cuisine: [String],
+    notifications: { type: Boolean, default: true },
+    darkMode: { type: Boolean, default: false },
+    dietaryRestrictions: { type: [String], default: [] },
+    favoriteCuisines: { type: [String], default: [] },
+    mealTypes: { type: [String], default: [] }
   },
   stats: {
     searches: { type: Number, default: 0 },
@@ -157,6 +159,7 @@ const userSchema = new mongoose.Schema({
     }
   ]
 });
+
 
 const User = mongoose.model("User", userSchema);
 
