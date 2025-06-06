@@ -296,7 +296,12 @@ import cors from "cors";
 import mongoose from "mongoose";
 import userRoutes from "./routes/userRoutes.js";
 import authRoutes from './routes/authRoutes.js';
-import dashboardRoute from "./routes/dashboard.js"; 
+import dashboardRoute from "./routes/dashboard.js";
+import shoppingListRoutes from "./routes/ShoppingList.js"; // Assuming you have a listRoutes.js file 
+import favoriteRoutes from "./routes/favorite.js";
+import savedRecipeRoutes from "./routes/savedRecipe.js";
+import activityRoutes from "./routes/Activity.js"; // Assuming you have an activityRoutes.js file
+import preferencesRoutes from "./routes/preferences.js"; // Assuming you have a preferencesRoutes.js file
 
 dotenv.config();
 
@@ -323,7 +328,13 @@ mongoose.connect(process.env.MONGO_URI, {
 // Routes
 app.use('/api/auth', authRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/dashboard", dashboardRoute);  // <--- use dashboardRoute here
+app.use("/api/dashboard", dashboardRoute);// <--- use dashboardRoute here
+app.use("/api/list", shoppingListRoutes); // <--- use shoppingListRoutes here
+app.use("/api/favorites", favoriteRoutes);
+app.use("/api/savedrecipes", savedRecipeRoutes);
+app.use("/api/activity", activityRoutes);
+app.use("/api/preferences", preferencesRoutes); // <--- use preferencesRoutes here
+
 
 // Default Route
 app.get("/", (req, res) => {

@@ -102,6 +102,7 @@ import User from "../models/User.js";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+import { handleUploadFile } from "../utils/cloudinary.js";
 
 const router = express.Router();
 
@@ -132,22 +133,36 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// 🟢 Update Profile Image
+// 🟢 Update Profile Image using Cloudinary
 router.put("/:id/upload", upload.single("profileImage"), async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    user.profileImage = `/uploads/${req.file.filename}`;
+    // If no file uploaded
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // Upload to Cloudinary
+    const result = await handleUploadFile(req.file.path);
+
+    if (!result) {
+      return res.status(500).json({ message: "Failed to upload image" });
+    }
+
+    // Save Cloudinary URL in DB
+    user.image = result.secure_url;
     await user.save();
 
-    res.json({ message: "Profile image updated!", profileImage: user.profileImage });
+    res.json({ message: "Profile image updated!", image: user.image });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 });
 
-export default router; 
+export default router;
+ 
 //New
 // import express from "express";
 // import User from "../models/User.js";
