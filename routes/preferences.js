@@ -33,6 +33,7 @@ router.put('/', auth, async (req, res) => {
     );
 
     res.json({
+      success: true,
       name: user.name,
       email: user.email,
       preferences: user.preferences,
