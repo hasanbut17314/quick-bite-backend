@@ -159,7 +159,7 @@ const userSchema = new mongoose.Schema({
       recipeId: String,
     }
   ]
-});
+}, { timestamps: true });
 
 
 const User = mongoose.model("User", userSchema);
