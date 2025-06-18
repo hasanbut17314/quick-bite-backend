@@ -22,6 +22,14 @@ const ShoppingListSchema = new mongoose.Schema({
     type: [IngredientSchema],
     default: [],
   },
+  status: {
+    type: String,
+    enum: ["pending", "purchased"], // customize as needed
+    default: "pending",
+  },
+  shoppingDate: {
+    type: Date,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

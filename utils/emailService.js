@@ -17,9 +17,8 @@ const transporter = nodemailer.createTransport({
   debug: true   // Show debug output
 });
 
-// Enhanced email sending function
+// Enhanced email sending function for password reset
 export const sendResetEmail = async (toEmail, resetUrl) => {
-  // Validate inputs
   if (!toEmail || !resetUrl) {
     throw new Error('Both toEmail and resetUrl are required');
   }
@@ -55,12 +54,10 @@ export const sendResetEmail = async (toEmail, resetUrl) => {
   };
 
   try {
-    // Verify connection first
     console.log('Verifying SMTP connection...');
     await transporter.verify();
     console.log('Server is ready to send emails');
 
-    // Send email
     console.log(`Attempting to send email to ${toEmail}...`);
     const info = await transporter.sendMail(mailOptions);
     
@@ -83,7 +80,57 @@ export const sendResetEmail = async (toEmail, resetUrl) => {
   }
 };
 
-// Test function (can be called during development)
+// Shopping Reminder Email Function
+export const sendShoppingReminderEmail = async (toEmail, comment, shoppingDate) => {
+  if (!toEmail || !shoppingDate) {
+    throw new Error('toEmail and shoppingDate are required');
+  }
+
+  const formattedDate = new Date(shoppingDate).toLocaleString();
+  const safeComment = comment || 'No comment provided.';
+
+  const mailOptions = {
+    from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+    to: toEmail,
+    subject: '🛒 QuickBite Shopping Reminder',
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2 style="color: #6b46c1;">Your Shopping Time is Here!</h2>
+        <p>This is a reminder for your scheduled shopping time.</p>
+        <p><strong>🕒 Time:</strong> ${formattedDate}</p>
+        <p><strong>📝 Comment:</strong> ${safeComment}</p>
+        <p>Happy shopping! 🛍️</p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+        <p style="color: #999; font-size: 12px;">
+          QuickBite Team<br>
+          <a href="http://yourwebsite.com" style="color: #6b46c1;">www.yourwebsite.com</a>
+        </p>
+      </div>
+    `,
+    text: `Your shopping reminder:\n\nTime: ${formattedDate}\nComment: ${safeComment}`
+  };
+
+  try {
+    console.log('Verifying SMTP connection for shopping reminder...');
+    await transporter.verify();
+    console.log('SMTP verified, sending shopping reminder email to', toEmail);
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Shopping reminder email sent:', info.messageId);
+
+    return {
+      success: true,
+      messageId: info.messageId,
+      previewUrl: nodemailer.getTestMessageUrl(info)
+    };
+  } catch (error) {
+    console.error('Failed to send shopping reminder email:', error);
+    throw new Error(`Failed to send shopping reminder email: ${error.message}`);
+  }
+};
+
+
+// Optional: Test function for reset email (for dev)
 export const testEmailService = async () => {
   const testEmail = 'test@example.com';
   const testUrl = 'https://yourwebsite.com/reset?token=test123';
