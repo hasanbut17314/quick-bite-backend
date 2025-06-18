@@ -137,6 +137,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
+  role: { type: String, default: "user" },
   image: String,
   preferences: {
     notifications: { type: Boolean, default: true },
@@ -158,7 +159,7 @@ const userSchema = new mongoose.Schema({
       recipeId: String,
     }
   ]
-});
+}, { timestamps: true });
 
 
 const User = mongoose.model("User", userSchema);
